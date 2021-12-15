@@ -1,0 +1,46 @@
+
+{% extends 'common/base.html' %}
+{% block title %}{{block.super}}-about{% endblock %}
+
+{% block content %}
+    <div class="container my-3">
+        <h3 class="text-center">Here is the list of your</h3>
+        <table id='tableid' class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Task Title</th>
+                    <th scope="col">Task Dscription</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% comment %} Run a for loop here and iterate through all
+            {% endcomment %}   
+            {% for item  in tasks %}
+                <tr>
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.task_title}}</td>
+                    <td>{{item.task_description}}</td>
+
+                    <td >
+                    {% comment %} access data with link {% endcomment %}
+                    <a href="{% url 'edit_data' item.id %}" class="btn btn-warning btn-sm">Edit</a>
+
+                    {% comment %} access data with form
+                    <a href="#" class="btn btn-danger btn-sm">Delete</a> {% endcomment %}
+                    
+                    <form action="{% url 'delete_data' item.id %}" method="POST" class='d-inline'> 
+                    {% csrf_token %}
+                    <input type="submit" value="delete" class="btn btn-danger btn-sm" >
+                    </form>
+                    </td>
+                    
+                </tr>
+            {% endfor %}           
+
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
